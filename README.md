@@ -1,4 +1,4 @@
-# 🎥 FreeD Virtual Viewer
+# FreeD Virtual Viewer
 
 **FreeD Virtual Viewer** is a real-time 3D visualization tool that simulates a camera moving inside a virtual world using FreeD tracking data. It is ideal for testing and demonstrating PTZ camera motion and FreeD integration in AR/VR environments.
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Live FreeD Packet Listener**  
   Listens for FreeD tracking data over UDP (default port: `19148`) and parses pan, tilt, and zoom values in real-time.
@@ -25,7 +25,7 @@
 
 ---
 
-## 🛠 Requirements
+## Requirements
 
 - Python 3.10+
 - [Panda3D](https://www.panda3d.org/)
@@ -39,7 +39,7 @@ pip install panda3d
 
 ---
 
-## 📂 File Structure
+## File Structure
 
 ```
 freed_virtual_viewer/
@@ -54,7 +54,7 @@ freed_virtual_viewer/
 
 ---
 
-## ▶️ Usage
+## Usage
 
 To launch the viewer:
 
@@ -70,7 +70,7 @@ To generate a `.glb` world (requires Blender):
 
 ---
 
-## 💡 Use Cases
+## Use Cases
 
 - Simulate and test FreeD-compatible PTZ camera tracking
 - Visualize real-world camera control systems
