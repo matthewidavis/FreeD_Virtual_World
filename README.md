@@ -31,12 +31,6 @@
 - [Panda3D](https://www.panda3d.org/)
 - (Optional) [Blender](https://www.blender.org/) — to generate detailed `.glb` scenes
 
-Install dependencies via:
-
-```bash
-pip install panda3d
-```
-
 ---
 
 ## File Structure
