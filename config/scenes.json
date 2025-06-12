@@ -1,0 +1,9 @@
+{
+    "scenes": [
+        {
+            "name": "basic_studio",
+            "file": "basic_studio.glb",
+            "description": "A simple cube studio with a desk"
+        }
+    ]
+}
