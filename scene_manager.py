@@ -1,6 +1,6 @@
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import Filename, AmbientLight, DirectionalLight, LVector3, Vec3, loadPrcFileData, TextNode
-loadPrcFileData('', 'window-title FreeD Virtual Viewer')
+loadPrcFileData('', 'window-title FreeDumb World')
 loadPrcFileData('', 'win-size 1280 720')
 from direct.gui.DirectGui import DirectEntry, DirectButton, DirectFrame
 import os
