@@ -15,7 +15,7 @@ class ViewerApp(ShowBase):
         super().__init__()
 
         self.connected = False
-        self.ip_address = "127.0.0.1"
+        self.ip_address = "192.168.100.88"
         self.angle = 0.0
 
         self.model_path = os.path.join("scenes")
