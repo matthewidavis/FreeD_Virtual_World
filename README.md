@@ -2,7 +2,7 @@
 
 **FreeD Virtual Viewer** is a real-time 3D visualization tool that simulates a camera moving inside a virtual world using FreeD tracking data. It is ideal for testing and demonstrating PTZ camera motion and FreeD integration in AR/VR environments.
 
-<img width="642" alt="image" src="https://github.com/user-attachments/assets/18f34a49-f802-49c2-89d3-acbeb5b1b2e2" />
+<img width="642" alt="image" src="https://github.com/user-attachments/assets/aa44e562-2957-486c-950e-9bd26fd3cc9a" />
 
 ---
 
