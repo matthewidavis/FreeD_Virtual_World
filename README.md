@@ -1,4 +1,4 @@
-# FreeD Virtual Viewer
+# FreeDumb World
 
 **FreeD Virtual Viewer** is a real-time 3D visualization tool that simulates a camera moving inside a virtual world using FreeD tracking data. It is ideal for testing and demonstrating PTZ camera motion and FreeD integration in AR/VR environments.
 
