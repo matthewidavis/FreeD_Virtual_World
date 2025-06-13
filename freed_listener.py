@@ -2,42 +2,49 @@ import socket
 import threading
 from camera_state import shared_camera
 
-def parse_freed_packet(data):
-    print(f"Received FreeD packet ({len(data)} bytes): {data.hex()}")
-    if len(data) < 26:
-        print("⚠️ Packet too short.")
-        return
+listener_thread = None
+listener_active = False
 
-    try:
-        # D0 format: bytes [2:5] = pan, [5:8] = tilt, [21:24] = zoom
-        raw_pan  = int.from_bytes(data[2:5], byteorder='big', signed=True)
-        raw_tilt = int.from_bytes(data[5:8], byteorder='big', signed=True)
+def listen_to_freed(ip="0.0.0.0", port=19148):
+    global listener_active
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind((ip, port))
+    sock.settimeout(1)
+    print(f"[FreeD] Listening on {ip}:{port}")
+    while listener_active:
+        try:
+            data, _ = sock.recvfrom(1024)
+            if len(data) >= 29:
+                parse_freed_data(data)
+        except socket.timeout:
+            continue
+        except Exception as e:
+            print(f"[FreeD] Error: {e}")
+    sock.close()
 
-        # Extract FoV/Zoom (bytes 21–23)
-        byte21 = data[21]
-        byte22 = data[22]
-        byte23 = data[23]
-        raw_zoom = (byte21 << 16) | (byte22 << 8) | byte23
+def parse_freed_data(data):
+    pan = int.from_bytes(data[0:3], byteorder='big', signed=True)
+    tilt = int.from_bytes(data[3:6], byteorder='big', signed=True)
+    zoom = int.from_bytes(data[6:9], byteorder='big', signed=False)
+    x = int.from_bytes(data[9:12], byteorder='big', signed=True) / 1000.0
+    y = int.from_bytes(data[12:15], byteorder='big', signed=True) / 1000.0
+    z = int.from_bytes(data[15:18], byteorder='big', signed=True) / 1000.0
 
-        # Normalize
-        pan_deg = raw_pan / 32768.0 * 180
-        tilt_deg = raw_tilt / 32768.0 * 90
-
-        print(f"Parsed → Pan: {pan_deg:.2f}°, Tilt: {tilt_deg:.2f}°, Zoom Bytes: {byte21:02X} {byte22:02X} {byte23:02X} → Zoom Raw: {raw_zoom}")
-
-        shared_camera.update_from_freed(pan_deg, tilt_deg, raw_zoom)
-
-    except Exception as e:
-        print(f"❌ Failed to parse FreeD: {e}")
+    shared_camera.pan = pan
+    shared_camera.tilt = tilt
+    shared_camera.zoom = zoom
+    shared_camera.x = x
+    shared_camera.y = y
+    shared_camera.z = z
 
 def start_freed_listener(port=19148):
-    def listen():
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.bind(("", port))
-        print(f"✅ FreeD listener active on UDP port {port}")
-        while True:
-            data, _ = sock.recvfrom(1024)
-            parse_freed_packet(data)
+    global listener_thread, listener_active
+    if listener_thread and listener_thread.is_alive():
+        return
+    listener_active = True
+    listener_thread = threading.Thread(target=listen_to_freed, args=("0.0.0.0", port), daemon=True)
+    listener_thread.start()
 
-    thread = threading.Thread(target=listen, daemon=True)
-    thread.start()
+def stop_freed_listener():
+    global listener_active
+    listener_active = False
